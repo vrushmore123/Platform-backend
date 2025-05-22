@@ -1,0 +1,1 @@
+# Settings (CORS, env vars)
