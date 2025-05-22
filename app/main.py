@@ -29,19 +29,7 @@ app.mount("/static", StaticFiles(directory=UPLOAD_DIR), name="static")
 # Adjust path to your React dist folder
 REACT_DIST_DIR = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", "..", "frontend", "dist"))
 
-# Mount React static assets (usually in dist/assets or dist/static depending on your setup)
-app.mount("/react_static", StaticFiles(directory=os.path.join(REACT_DIST_DIR, "assets")), name="react_static")
 
-@app.get("/{full_path:path}")
-async def serve_react_app(full_path: str, request: Request):
-    api_prefixes = ("api", "teacher_courses", "profile", "auth", "courses")
-    if any(full_path.startswith(prefix) for prefix in api_prefixes):
-        return {"detail": "Not Found"}
-
-    index_path = os.path.join(REACT_DIST_DIR, "index.html")
-    if os.path.exists(index_path):
-        return FileResponse(index_path)
-    return {"detail": "React dist not found"}
 
 if __name__ == "__main__":
     import uvicorn
